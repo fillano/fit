@@ -84,11 +84,26 @@ describe('ft template engine tests', function() {
 		assert.equal(expect, t(s)(data));
 		done();
 	});
-	it('if failed', function(done) {
+	it('if expression is false without else tag', function(done) {
 		var expect = '<div></div>';
 		var s = '<div>{{if false}}{{=$name}}{{endif}}</div>';
 		var data = {name: 'okbyme'};
 		assert.equal(expect, t(s)(data));
+		done();
+	});
+	it('if expression is true with else tag', function(done) {
+		var expect = '<div></div>';
+		var s = '<div>{{if true}}{{else}}{{=$name}}{{endif}}</div>';
+		var data = {name: 'okbyme'};
+		assert.equal(expect, t(s)(data));
+		done();
+	});
+	it('with or without pre compiled template should have the same result', function(done) {
+		var expect = '<div>okbyme</div>';
+		var s = '<div>{{=$name}}</div>';
+		var data = {name: 'okbyme'};
+		assert.equal(expect, t(s)(data));//template compile in runtime
+		assert.equal(expect, t(s, true)(data));//precompile template
 		done();
 	});
 });
