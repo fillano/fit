@@ -53,6 +53,7 @@ function fit(str, pre) {
 			return function(data) {
 				e = e.replace(/\$/g, 'data.');
 				var s = eval(e)? _param : _else;
+				if(!s) return '';
 				return s.reduce(function(pre, cur) {
 					if(typeof cur === 'function') {
 						return pre + cur(data);

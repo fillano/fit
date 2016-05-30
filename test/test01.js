@@ -84,4 +84,11 @@ describe('ft template engine tests', function() {
 		assert.equal(expect, t(s)(data));
 		done();
 	});
+	it('if failed', function(done) {
+		var expect = '<div></div>';
+		var s = '<div>{{if false}}{{=$name}}{{endif}}</div>';
+		var data = {name: 'okbyme'};
+		assert.equal(expect, t(s)(data));
+		done();
+	});
 });
