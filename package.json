@@ -1,6 +1,6 @@
 {
-  "name": "ft",
-  "version": "0.0.2",
+  "name": "fit",
+  "version": "0.9.0",
   "description": "a simple template engine implemented by iterative parser",
   "main": "fit.js",
   "directories": {
@@ -17,7 +17,10 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.5.0",
+    "jscoverage": "^0.6.0",
     "mocha": "^2.5.3",
     "uglify-js": "^2.6.2"
+  },
+  "dependencies": {
   }
 }
