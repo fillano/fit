@@ -50,7 +50,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			"for": function(_exp, _param) {
 				var e = _exp.substr(3).trim().split('as');
 				var e1 = e[0].trim().substr(1);
-				var e2 = e[1].trim().substr(1);
+				var e2 = e.length < 2 ? '_i' : e[1].trim().substr(1);
 				return function(data, global) {
 					var s = e1.split('.').reduce(function(pre, cur) {
 						return pre[cur];
@@ -61,7 +61,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 					var ret = '';
 					s.forEach(function(item, index) {
 						var p = {};
-						p[e2] = item;
+						if(item === null || typeof item === 'undefined' || typeof item === 'symbol' || (typeof item !== 'object' && typeof item !== 'function')) {
+							p[e2] = {};
+							p[e2].toString = function() {return item===null?'null':(typeof item === 'undefined')?'undefined':item.toString()};
+						} else {
+							p[e2] = item;
+						}
 						p[e2]['_index'] = index;
 						p[e2]['_global'] = global;
 						p[e2]['_parent'] = s1;
@@ -88,7 +93,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 					if(!s) return '';
 					return s.reduce(function(pre, cur) {
 						if(typeof cur === 'function') {
-							return pre + cur(data);
+							if(cur.length === 2) {
+								return pre + cur(data, data);
+							} else {
+								return pre + cur(data);
+							}
 						} else {
 							return pre + cur;
 						}
@@ -138,7 +147,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 							case 'endfor':
 								var e = ps.pop();
 								if(ps.length > 0) {
-									ps[ps.length-1].param.push(exp['for'](e.exp, e.param));
+									if(!!ps[ps.length-1]['else']) {
+										ps[ps.length-1]['else'].push(exp['for'](e.exp, e.param));
+									} else {
+										ps[ps.length-1].param.push(exp['for'](e.exp, e.param));
+									}
 								} else {
 									ret.push(exp['for'](e.exp, e.param));
 								}

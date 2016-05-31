@@ -86,6 +86,12 @@ describe('ft template engine tests', function() {
 		};
 		assert.equal(expect, t(s)(data));
 	});
+	it('if expression is false with else tag', function() {
+		var expect = '<div><p>okbyme</p></div>';
+		var s = '<div>{{if false}}{{else}}<p>{{=$name}}</p>{{endif}}</div>';
+		var data = {name: 'okbyme'};
+		assert.equal(expect, t(s)(data));
+	});
 	it('if expression is false without else tag', function() {
 		var expect = '<div></div>';
 		var s = '<div>{{if false}}{{=$name}}{{endif}}</div>';
@@ -105,7 +111,7 @@ describe('ft template engine tests', function() {
 		assert.equal(expect, t(s)(data));//template compile in runtime
 		assert.equal(expect, t(s, true)(data));//precompile template
 	});
-	it('test for scope variable _global in single for loop', function() {
+	it('for scope variable _global in single for loop', function() {
 		var expect = '<div>(A)</div><div>(B)</div><div>(C)</div><div>(D)</div>';
 		var s = '{{for $qa as $q}}<div>({{=$q._global.listitem[$q._index]}}){{=$q.content}}</div>{{endfor}}'
 		var data = {
@@ -119,9 +125,9 @@ describe('ft template engine tests', function() {
 		}
 		assert.equal(expect, t(s)(data));
 	});
-	it('test for scope variable _global in double for loop', function() {
+	it('for scope variable _global in double for loop', function() {
 		var expect = '<div>question1<ol><li><input type="radio" name="q1" value="0" /> (A) </li><li><input type="radio" name="q1" value="1" /> (B) </li><li><input type="radio" name="q1" value="2" /> (C) </li><li><input type="radio" name="q1" value="3" /> (D) </li></ol></div><div>question2<ol><li><input type="radio" name="q2" value="0" /> (A) </li><li><input type="radio" name="q2" value="1" /> (B) </li><li><input type="radio" name="q2" value="2" /> (C) </li><li><input type="radio" name="q2" value="3" /> (D) </li></ol></div><div>question3<ol><li><input type="radio" name="q3" value="0" /> (A) </li><li><input type="radio" name="q3" value="1" /> (B) </li><li><input type="radio" name="q3" value="2" /> (C) </li><li><input type="radio" name="q3" value="3" /> (D) </li></ol></div>';
-		var s = '{{for $q as $qs}}<div>{{=$qs.desc}}<ol>{{for $qs.a as $ad}}<li><input type="radio" name="{{=$ad[\'_parent\'].id}}" value="{{=$ad[\'_index\']}}" /> ({{=$ad[\'_global\'].listitem[$ad[\'_index\']]}}) {{=$ad.desc}}</li>{{endfor}}</ol></div>{{endfor}}';
+		var s = '{{for $q as $qs}}<div>{{=$qs.desc}}<ol>{{for $qs.a as $ad}}<li><input type="radio" name="{{=$ad._parent.id}}" value="{{=$ad._index}}" /> ({{=$ad._global.listitem[$ad._index]}}) {{=$ad.desc}}</li>{{endfor}}</ol></div>{{endfor}}';
 		var data = {
 			listitem: ['A','B','C','D'],
 			q: [
@@ -144,7 +150,7 @@ describe('ft template engine tests', function() {
 		};
 		assert.equal(expect, t(s)(data));
 	});
-	it('test for reuse template with different data', function() {
+	it('for reusing template with different data', function() {
 		var expect1 = '<div>name1</div>';
 		var expect2 = '<div>name2</div>';
 		var s = '<div>{{=$name}}</div>';
@@ -152,5 +158,61 @@ describe('ft template engine tests', function() {
 		var data2 = {name:'name2'};
 		assert.equal(expect1, t(s)(data1));
 		assert.equal(expect2, t(s)(data2));
+	});
+	it('for plain old string array', function() {
+		var expect = '<div>name1</div><div>name2</div><div>name3</div>';
+		var s = '{{for $a as $i}}<div>{{=$i}}</div>{{endfor}}';
+		var data = {a:['name1','name2','name3']};
+		assert.equal(expect, t(s)(data));
+	});
+	it('for plain old number array', function() {
+		var expect = '<div>7</div><div>5</div><div>3</div>';
+		var s = '{{for $a as $i}}<div>{{=$i}}</div>{{endfor}}';
+		var data = {a:[7,5,3]};
+		assert.equal(expect, t(s)(data));
+	});
+	it('for loop without `as` expression', function() {
+		var expect = '<div>name0</div><div>name1</div><div>name2</div>';
+		var s = '{{for $a}}<div>{{=$_i}}{{=$_i._index}}</div>{{endfor}}';
+		var data = {a:['name','name','name']};
+		assert.equal(expect, t(s)(data));
+	});
+	it('for plain old boolean array', function() {
+		var expect = '<p>true</p><p>false</p><p>true</p>';
+		var s = '{{for $a}}<p>{{=$_i}}</p>{{endfor}}';
+		var data = {a:[true,false,true]};
+		assert.equal(expect, t(s)(data));
+	});
+	it('for plain old null array', function() {
+		var expect = '<p>null</p><p>null</p><p>null</p>';
+		var s = '{{for $a}}<p>{{=$_i}}</p>{{endfor}}';
+		var data = {a:[null,null,null]};
+		assert.equal(expect, t(s)(data));
+	});
+	it('for plain old undefined array', function() {
+		var expect = '<p>undefined</p><p>undefined</p><p>undefined</p>';
+		var s = '{{for $a}}<p>{{=$_i}}</p>{{endfor}}';
+		var data = {a:[undefined,undefined,undefined]};
+		assert.equal(expect, t(s)(data));
+	});
+	it('for plain old symbol array', function() {
+		var expect = '<p>Symbol(fillano)</p><p>Symbol(fillano)</p><p>Symbol(fillano)</p>';
+		var s = '{{for $a}}<p>{{=$_i}}</p>{{endfor}}';
+		var data = {a:[Symbol('fillano'),Symbol('fillano'),Symbol('fillano')]};
+		assert.equal(expect, t(s)(data));
+	});
+	it('for complex if within if', function() {
+		var expect = '<div><p>okbyme</p></div>';
+		var s = '<div>{{if false}}<p>{{if true}}nohere{{endif}}</p>{{else}}<p>{{if true}}{{=$name}}{{endif}}</p>{{endif}}</div>';
+		var data = {name:'okbyme'};
+		assert.equal(expect, t(s)(data));
+	});
+	it('for complex for within if', function() {
+		var expect = '<div><p>name1</p><p>name2</p><p>name3</p></div>';
+		var s1 = '{{if true}}<div>{{for $names}}<p>{{=$_i}}</p>{{endfor}}</div>{{else}}<div>{{for $names}}<p>{{=$_i}}</p>{{endfor}}</div>{{endif}}';
+		var s2 = '{{if false}}<div>{{for $names}}<p>{{=$_i}}</p>{{endfor}}</div>{{else}}<div>{{for $names}}<p>{{=$_i}}</p>{{endfor}}</div>{{endif}}';
+		var data = {names: ['name1','name2','name3']};
+		assert.equal(expect, t(s1)(data));
+		assert.equal(expect, t(s2)(data));
 	});
 });
