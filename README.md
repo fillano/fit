@@ -16,13 +16,17 @@ console.log(render({name: 'fit'}));
 * right delimiter: }}
 * variable name in template must start with a $
 * =
-  * {{=$name}}
+  * {{=$name}} or {{$name.prop}}
 * for
-  * {{for $collect as $item}} content within for {{endfor}}
-  * iteration index will be assigned to $item.index
+  * {{for $collection as $item}} content within for {{endfor}}
+  * in this case, you can access the passed object with $item variable
+  * iteration index will be assigned to $item._index
+  * object directly contains the iterated collection will be assigned to $item._parent
+  * object passed to render() in the above example will be assigned to $item._global
+  * brief syntax {{for $collection}} without 'as' expression, the object passed to each iteration will be named as $_i
 * if
   * {{if expression}} content when the expression is true {{else}} content when the expression is false {{endif}}
-  * 
+* for and if can be nested with each others in unlimited levels(but I don't test the case which was deeper than 2 levels, simply because it's not my case.)
   
 ## examples
 please refer to the test cases in test/test01.js.
