@@ -31,6 +31,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 			}
 		}
+		if(!String.prototype.trimLeft) {
+			String.prototype.trimLeft = function() {
+				return this.replace(/^[\s\uFEFF\xA0]+/g, '');
+			}
+		}
 		var oplist = [
 			'=',
 			'for',
