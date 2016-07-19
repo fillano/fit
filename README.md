@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/fillano/fit.svg?branch=master)](https://travis-ci.org/fillano/fit)
+
 # fit
 a simple template engine that just fits my current requirements
 
