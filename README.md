@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/fillano/fit.svg?branch=master)](https://travis-ci.org/fillano/fit)
-[![Coverage Status](https://coveralls.io/repos/fillano/fit/badge.svg?branch=master)](https://coveralls.io/r/fillano/fit?branch=master)  
+[![Coverage Status](https://coveralls.io/repos/github/fillano/fit/badge.svg?branch=master)](https://coveralls.io/github/fillano/fit?branch=master)
 
 # fit
 a simple template engine that just fits my current requirements
