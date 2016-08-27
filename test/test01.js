@@ -1,6 +1,6 @@
 var assert = require('chai').assert;
 var t = require('../fit');
-describe('ft template engine tests', function() {
+describe('fit template engine tests', function() {
 	it('assign', function() {
 		var expect = '<div>fillano</div>';
 		var s = [
