@@ -215,4 +215,18 @@ describe('ft template engine tests', function() {
 		assert.equal(expect, t(s1)(data));
 		assert.equal(expect, t(s2)(data));
 	});
+    it('for unknown token', function() {
+        var expect = '<div>{{unknown(while)}}</div>';
+        var s = '<div>{{while $name}}</div>';
+        var data = {name:'gar'};
+        assert.equal(expect, t(s)(data));
+    });
+    it('for unknown token in if/else', function() {
+        var expect = '<div>{{unknown(while)}}</div>';
+        var s1 = '<div>{{if $case===1}}{{while $name}}{{endif}}</div>';
+        var s2 = '<div>{{if $case===2}}{{=$name}}{{else}}{{while $name}}{{endif}}</div>';
+        var data = {"case":1, "name":"gar"};
+        assert.equal(expect, t(s1)(data));
+        assert.equal(expect, t(s2)(data));
+    });
 });
