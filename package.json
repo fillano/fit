@@ -6,6 +6,10 @@
   "directories": {
     "test": "test"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fillano/fit"
+  },
   "scripts": {
     "test": "./node_modules/.bin/mocha test/test01.js -r jscoverage",
     "coveralls": "./node_modules/.bin/mocha test/test01.js -r jscoverage -R mocha-lcov-reporter | ./node_modules/.bin/coveralls",
