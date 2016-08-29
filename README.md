@@ -32,6 +32,7 @@ console.log(render({name: 'fit'}));
 Options should be passed by the second argument of the **fit(template, options)** function.
 
 Valid options:
+
 1. **options.l_del**: for the string applied as left delimiter in the template. The default value is '{{'.
 2. **options.r_del**: for the string applied as right delimiter in the template. The default value is '}}'
 3. **options.pre**: specify whether to pre-parse the template while it passed to fit. Specified the value to 'yes' will pre-parse it and 'no' will not. The default value is 'yes'.
