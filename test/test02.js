@@ -5,7 +5,11 @@ if('undefined' === typeof window) {
 	var assert = chai.assert;
 	var t = fit;
 }
-describe('fit template engine tests', function() {
+describe('fit template engine tests while String.prototype.trim or String.prototype.trimRight not found', function() {
+	beforeEach(function() {
+		String.prototype.trim = undefined;
+		String.prototype.trimRight = undefined;
+	});
 	it('assign', function(done) {
 		var expect = '<div>fillano</div>';
 		var s = [

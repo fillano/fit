@@ -4,7 +4,7 @@
 # fit
 A simple and compact template engine that just fits my current requirements. The file size is only 3kb after minified and there's no runtime dependency.
 
-# usage
+# simple usage
 ## in javascript
 
 In browser,
@@ -27,10 +27,30 @@ console.log(render({name: 'fit'}));
 //result: '<div>fit</div>'
 ```
 
+## options
+
+Options should be passed by the second argument of the **fit(template, options)** function.
+
+Valid options:
+1. **options.l_del**: for the string applied as left delimiter in the template. The default value is '{{'.
+2. **options.r_del**: for the string applied as right delimiter in the template. The default value is '}}'
+3. **options.pre**: specify whether to pre-parse the template while it passed to fit. Specified the value to 'yes' will pre-parse it and 'no' will not. The default value is 'yes'.
+4. **options.async**: specify whether to render the result by an async manner. Specified the value to 'yes' and passed an callback function to the render function as the second argument will make it work in an async manner. The default value is 'no'.
+
+for example:
+```
+var fit = require('./fit');
+var template = '<div><{=$name}></div>';
+var render = fit(template, {l_del:'<{',r_del:'}>',async:'yes'});
+render({name: 'fit'}, function(result) {
+    console.log(result);
+    //result: '<div>fit</div>'
+});
+```
 
 ## template syntax
-* left delimiter: **{{**
-* right delimiter: **}}**
+* left delimiter: specified by **options.l_del**
+* right delimiter: specified by **options.r_del**
 * variable name in template must start with a **$**
 * =
   * **{{=$name}}** or **{{=$name.prop}}**

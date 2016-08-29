@@ -25,16 +25,28 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			return fit;
 		};
 	}
-	function fit(str, pre) {
-		if(!String.prototype.trim) {
-			String.prototype.trim = function() {
+	function fit(str, opts) {
+		if('function' !== typeof String.prototype.trim) {
+			String.prototype.trim = function trim() {
 				return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 			}
 		}
-		if(!String.prototype.trimLeft) {
-			String.prototype.trimLeft = function() {
+		if('function' !== String.prototype.trimLeft) {
+			String.prototype.trimLeft = function trimLeft() {
 				return this.replace(/^[\s\uFEFF\xA0]+/g, '');
 			}
+		}
+		var options = {
+			l_del: '{{',
+			r_del: '}}',
+			pre: 'yes',
+			async: 'no'
+		}
+		if(!!opts) {
+			options.l_del = opts.l_del ? opts.l_del : '{{';
+			options.r_del = opts.r_del ? opts.r_del : '}}';
+			options.pre = opts.pre ? (opts.pre === 'yes' || opts.pre === 'no') ? opts.pre : 'yes' : 'yes';
+			options.async = opts.async ? (opts.pre === 'yes' || opts.pre === 'no') ? opts.async : 'no' : 'no';
 		}
 		var oplist = [
 			'=',
@@ -111,13 +123,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			}
 		};
 		function tokenizer(str) {
-			var l_del = '{{';
-			var r_del = '}}';
-			var part1 = str.split(l_del);
+			var part1 = str.split(options.l_del);
 			return part1.reduce(function(pre, cur) {
-				if(cur.indexOf(r_del) > -1) {
-					var tmp = cur.split(r_del);
-					pre.push('{{OP_' + tmp[0].trimLeft());
+				if(cur.indexOf(options.r_del) > -1) {
+					var tmp = cur.split(options.r_del);
+					pre.push(options.l_del + 'OP_' + tmp[0].trimLeft());
 					pre.push(tmp[1]);
 					return pre;
 				} else {
@@ -130,7 +140,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			var ret = [];
 			var ps = [];
 			arr.forEach(function(cur) {
-				if(cur.indexOf('{{OP_') === 0) {
+				if(cur.indexOf(options.l_del + 'OP_') === 0) {
 					var _exp = cur.substr(5);
 					var _op = _exp.trim().split(/ |\$/)[0];
 					if(oplist.indexOf(_op) > -1) {
@@ -183,12 +193,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 					} else {
 						if(ps.length > 0) {
 							if(!!ps[ps.length-1]['else']) {
-								!!ps[ps.length-1]['else'].push('{{unknown('+_op+')}}')
+								!!ps[ps.length-1]['else'].push(options.l_del + 'unknown('+_op+')' + options.r_del)
 							} else {
-								ps[ps.length-1].param.push('{{unknown('+_op+')}}');
+								ps[ps.length-1].param.push(options.l_del + 'unknown('+_op+')' + options.r_del);
 							}
 						} else {
-							ret.push('{{unknown('+_op+')}}');
+							ret.push(options.l_del + 'unknown('+_op+')' + options.r_del);
 						}
 					}
 				} else {
@@ -220,14 +230,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			}, '');
 		}
 		var parsed;
-		if(!!pre) {
+		if(options.pre === 'yes') {
 			parsed = parser(tokenizer(str));
 		}
-		return function(data) {
+		return function(data, cb) {
 			if(parsed === undefined) {
 				parsed = parser(tokenizer(str));
 			}
-			return render(parsed, data);
+			if(options.async === 'yes' && 'function' === typeof cb) {
+				setTimeout(function() {cb(render(parsed, data));}, 0);
+			} else {
+				return render(parsed, data);
+			}
 		};
 	}
 }).call(this);
