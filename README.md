@@ -2,17 +2,31 @@
 [![Coverage Status](https://coveralls.io/repos/github/fillano/fit/badge.svg?branch=master)](https://coveralls.io/github/fillano/fit?branch=master)
 
 # fit
-a simple template engine that just fits my current requirements
+A simple and compact template engine that just fits my current requirements. The file size is only 3kb after minified and there's no runtime dependency.
 
 # usage
 ## in javascript
+
+In browser,
 ```
-var fit = require('./fit') or <script src='fit.min.js'></script>
+<script src='fit.min.js'></script>
+<script>
+var template = '<div>{{=$name}}</div>';
+var render = fit(template);
+console.log(render({name: 'fit'}));
+//result: '<div>fit</div>'
+</script>
+```
+
+In node.js, (not put it to npm repository yet, so please copy 'fit.js' to your project path manually)
+```
+var fit = require('./fit');
 var template = '<div>{{=$name}}</div>';
 var render = fit(template);
 console.log(render({name: 'fit'}));
 //result: '<div>fit</div>'
 ```
+
 
 ## template syntax
 * left delimiter: **{{**
