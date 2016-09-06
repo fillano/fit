@@ -43,8 +43,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			async: 'no'
 		}
 		if(!!opts) {
-			options.l_del = opts.l_del ? opts.l_del : '{{';
-			options.r_del = opts.r_del ? opts.r_del : '}}';
+			options.l_del = opts.l_del || '{{';
+			options.r_del = opts.r_del || '}}';
 			options.pre = opts.pre ? (opts.pre === 'yes' || opts.pre === 'no') ? opts.pre : 'yes' : 'yes';
 			options.async = opts.async ? (opts.pre === 'yes' || opts.pre === 'no') ? opts.async : 'no' : 'no';
 		}
@@ -122,7 +122,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				};
 			}
 		};
-		function tokenizer(str) {
+		var parsed;
+		if(options.pre === 'yes') {
+			parsed = parse(tokenize(str));
+		}
+		function tokenize(str) {
 			var part1 = str.split(options.l_del);
 			return part1.reduce(function(pre, cur) {
 				if(cur.indexOf(options.r_del) > -1) {
@@ -136,7 +140,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				}
 			}, []);
 		}
-		function parser(arr) {
+		function parse(arr) {
 			var ret = [];
 			var ps = [];
 			arr.forEach(function(cur) {
@@ -229,18 +233,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				}
 			}, '');
 		}
-		var parsed;
-		if(options.pre === 'yes') {
-			parsed = parser(tokenizer(str));
-		}
 		return function(data, cb) {
-			if(parsed === undefined) {
-				parsed = parser(tokenizer(str));
-			}
 			if(options.async === 'yes' && 'function' === typeof cb) {
-				setTimeout(function() {cb(render(parsed, data));}, 0);
+				setTimeout(function() {
+					cb(render(parsed? parsed : parse(tokenize(str)), data));
+				}, 0);
 			} else {
-				return render(parsed, data);
+				return render(parsed? parsed : parse(tokenize(str)), data);
 			}
 		};
 	}
