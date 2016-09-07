@@ -1,5 +1,5 @@
 {
-  "name": "fit.js",
+  "name": "fit-template",
   "description": "a simple template engine implemented by iterative parser",
   "main": "fit.js",
   "authors": [
