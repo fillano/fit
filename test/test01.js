@@ -201,12 +201,12 @@ describe('fit template engine tests', function() {
 		var data = {a:[undefined,undefined,undefined]};
 		assert.equal(expect, t(s)(data));
 	});
-	it('for plain old symbol array', function() {
+	/*it('for plain old symbol array', function() {
 		var expect = '<p>Symbol(fillano)</p><p>Symbol(fillano)</p><p>Symbol(fillano)</p>';
 		var s = '{{for $a}}<p>{{=$_i}}</p>{{endfor}}';
 		var data = {a:[Symbol('fillano'),Symbol('fillano'),Symbol('fillano')]};
 		assert.equal(expect, t(s)(data));
-	});
+	});*/
 	it('for complex if within if', function() {
 		var expect = '<div><p>okbyme</p></div>';
 		var s = '<div>{{if false}}<p>{{if true}}nohere{{endif}}</p>{{else}}<p>{{if true}}{{=$name}}{{endif}}</p>{{endif}}</div>';

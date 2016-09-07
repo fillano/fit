@@ -1,0 +1,24 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mocha Tests</title>
+	<link href="../node_modules/mocha/mocha.css" rel="stylesheet" />
+</head>
+<body>
+	<div id="mocha"></div>
+	<script src="../node_modules/chai/chai.js"></script>
+	<script src="../node_modules/mocha/mocha.js"></script>
+	<script src="../fit.js"></script>
+	<script>
+		mocha.setup('bdd');
+		mocha.checkLeaks();
+		mocha.globals(['chai', 'fit']);
+	</script>
+	<script src="test01.js"></script>
+	<script src="test02.js"></script>
+	<script src="test03.js"></script>
+	<script>
+		mocha.run();
+	</script>
+</body>
+</html>

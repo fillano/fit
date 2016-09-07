@@ -1,6 +1,6 @@
 {
   "name": "fit",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "a simple template engine implemented by iterative parser",
   "main": "fit.js",
   "directories": {
@@ -12,6 +12,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha test/*.js -r jscoverage",
+    "client-test": "./node_modules/.bin/mocha-phantomjs -R spec test/runtest.html",
     "coveralls": "./node_modules/.bin/mocha test/*.js -r jscoverage -R mocha-lcov-reporter | ./node_modules/.bin/coveralls",
     "build": "./node_modules/.bin/uglifyjs fit.js -c -m --source-map dist/fit.min.js.map -o dist/fit.min.js"
   },
@@ -26,6 +27,7 @@
     "jscoverage": "^0.6.0",
     "mocha": "^2.5.3",
     "mocha-lcov-reporter": "^1.2.0",
+    "mocha-phantomjs": "^4.1.0",
     "uglify-js": "^2.6.2"
   },
   "dependencies": {}

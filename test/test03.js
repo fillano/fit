@@ -258,7 +258,7 @@ describe('fit template engine tests with options changed', function() {
 			done();
 		});
 	});
-	it('for plain old symbol array', function(done) {
+	/*it('for plain old symbol array', function(done) {
 		var expect = '<p>Symbol(fillano)</p><p>Symbol(fillano)</p><p>Symbol(fillano)</p>';
 		var s = '<{for $a}><p><{=$_i}></p><{endfor}>';
 		var data = {a:[Symbol('fillano'),Symbol('fillano'),Symbol('fillano')]};
@@ -266,7 +266,7 @@ describe('fit template engine tests with options changed', function() {
 			assert.equal(expect, result);
 			done();
 		});
-	});
+	});*/
 	it('for complex if within if', function(done) {
 		var expect = '<div><p>okbyme</p></div>';
 		var s = '<div><{if false}><p><{if true}>nohere<{endif}></p><{else}><p><{if true}><{=$name}><{endif}></p><{endif}></div>';

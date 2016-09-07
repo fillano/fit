@@ -67,4 +67,19 @@ render({name: 'fit'}, function(result) {
 * for and if can be nested with each others in unlimited levels(but I don't test the case which was deeper than 2 levels, simply because it's not my case.)
   
 ## examples
-please refer to the test cases in test/test01.js.
+please refer to the test cases in test/*.js.
+
+## tests
+Please run ```npm install``` first to install all required modules before tests.
+
+### for server
+If you would like to run the tests yourself...
+```
+npm run test
+```
+
+### for client
+Client tests depended on phantomjs through mocha-phantomjs module.
+```
+npm run client-test
+```
