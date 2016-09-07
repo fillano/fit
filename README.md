@@ -5,6 +5,17 @@
 A simple and compact template engine that just fits my current requirements. The file size is only 3kb after minified and there's no runtime dependency.
 
 # simple usage
+## install
+install fit template engine by npm:
+```
+npm install fit-template
+```
+
+install fit template engine by bower:
+```
+bower install fit-template
+```
+
 ## in javascript
 
 In browser,
