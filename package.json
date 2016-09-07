@@ -1,6 +1,6 @@
 {
-  "name": "fit",
-  "version": "0.9.8",
+  "name": "fit.js",
+  "version": "0.9.9",
   "description": "a simple template engine implemented by iterative parser",
   "main": "fit.js",
   "directories": {
