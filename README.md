@@ -20,7 +20,7 @@ bower install fit-template
 
 In browser,
 ```
-<script src='fit.min.js'></script>
+<script src='bower_components/fit-template/dist/fit.min.js'></script>
 <script>
 var template = '<div>{{=$name}}</div>';
 var render = fit(template);
