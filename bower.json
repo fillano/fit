@@ -1,0 +1,20 @@
+{
+  "name": "fit",
+  "description": "a simple template engine implemented by iterative parser",
+  "main": "fit.js",
+  "authors": [
+    "fillano.feng@gmail.com"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "template"
+  ],
+  "homepage": "https://github.com/fillano/fit",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
