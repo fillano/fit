@@ -31,7 +31,7 @@ console.log(render({name: 'fit'}));
 
 In node.js, (not put it to npm repository yet, so please copy 'fit.js' to your project path manually)
 ```
-var fit = require('./fit');
+var fit = require('fit-template');
 var template = '<div>{{=$name}}</div>';
 var render = fit(template);
 console.log(render({name: 'fit'}));
