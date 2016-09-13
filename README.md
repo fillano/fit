@@ -80,6 +80,10 @@ render({name: 'fit'}, function(result) {
 ## examples
 please refer to the test cases in test/*.js.
 
+## limitation
+1. The left delimiter (default: ```{{```) and the right delimiter (default: ```}}```) should not be in the template string other than as delimiters.
+2. Expression within the if condition (ex. ```{{if expression}}```) will be modified and **eval**ed to get the result. But **eval** could be unsafe in browser. 
+
 ## tests
 Please run ```npm install``` first to install all required modules before tests.
 
