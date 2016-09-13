@@ -94,7 +94,7 @@ npm run test
 ```
 
 ### for client
-Client tests depended on phantomjs through mocha-phantomjs module.
+Client tests depended on phantomjs through mocha-phantomjs module. But the dependency of phantomjs could halt my TravisCI build while trying to install phantomjs... so sad...
 ```
 npm run client-test
 ```
